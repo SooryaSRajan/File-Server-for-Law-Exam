@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 20;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/status/on">on</a>
+    <a href="/status/off">off</a>
+
+    <ul>
+        <!-- UL for files -->
+    </ul>
+    <iframe frameborder="0" width="100%" height="80%"></iframe>
+
+    <!-- uplaod file form -->
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+
+    <script>
+        const ul = document.querySelector('ul');
+        const url = '/files';
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(file => {
+                    const li = document.createElement('li');
+                    // add a button that calls function to set iframe src
+                    li.innerHTML = `<button onclick="setIframeSrc('${file}')">${file}</button>`;
+                    ul.appendChild(li);
+                });
+            });
+        // function to set iframe src
+        function setIframeSrc(file) {
+            const iframe = document.querySelector('iframe');
+            iframe.src = `/${file}`;
+        }
+    </script>
+    
+</body>
+</html>
